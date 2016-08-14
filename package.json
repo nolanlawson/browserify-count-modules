@@ -10,11 +10,16 @@
     "browserify-count-modules": "bin.js",
     "bcm": "bin.js"
   },
-  "keywords": ["browserify", "count", "modules"],
+  "keywords": [
+    "browserify",
+    "count",
+    "modules"
+  ],
   "author": "Nolan Lawson <nolan@nolanlawson.com>",
   "license": "Apache-2.0",
   "dependencies": {
     "acorn": "^3.3.0",
+    "es6-map": "^0.1.4",
     "walk-ast": "^0.0.2",
     "yargs": "^4.8.1"
   },
@@ -25,5 +30,9 @@
     "rimraf": "2.5.4",
     "standard": "^7.1.2",
     "uglify-js": "2.7.0"
-  }
+  },
+  "files": [
+    "bin.js",
+    "index.js"
+  ]
 }

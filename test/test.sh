@@ -15,6 +15,8 @@ function test_browserify {
   assert "browserify -s ModuleName $1 | node ./bin.js" $2
   # bundle-collapser
   assert "browserify -p bundle-collapser/plugin $1 | node ./bin.js" $2
+  # full-paths
+  assert "browserify --full-paths $1 | node ./bin.js" $2
   # minified
   assert "browserify $1 | uglifyjs -mc | node ./bin.js" $2
 }
