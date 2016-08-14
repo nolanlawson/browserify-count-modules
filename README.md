@@ -1,5 +1,4 @@
 browserify-count-modules [![Build Status](https://travis-ci.org/nolanlawson/browserify-count-modules.svg?branch=master)](https://travis-ci.org/nolanlawson/browserify-count-modules) [![JavaScript Style Guide](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
-
 ========
 
 Count the total number of modules in a Browserify bundle.
