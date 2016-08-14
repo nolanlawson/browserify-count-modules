@@ -2,7 +2,15 @@
 
 var acorn = require('acorn')
 var walk = require('walk-ast')
-var Map = require('es6-map')
+var uniq = require('lodash.uniq')
+
+function getDepth (node) {
+  var depth = 1
+  while ((node = node.parentNode)) {
+    depth++
+  }
+  return depth
+}
 
 function browserifyCountModules (jsString, opts, cb) {
   if (typeof opts === 'function') {
@@ -13,47 +21,50 @@ function browserifyCountModules (jsString, opts, cb) {
 
   function parseForVerbose () {
     var modules = []
+    // You really have to look at the browserify --full-paths output
+    // to understand what's going on here... the ArrayExpressions are at the end
+    // and enumerate the top-level paths. then there are also ObjectExpressions
+    // inside which define the dependencies. I just grab them all and then uniq()
+    // at the end.
+    // The getDepth() checks are to ensure we ignore any browserify bundles-within-bundles,
+    // e.g. in case somebody literally included a browserify bundle itself within a module.
     walk(ast, function (node) {
       if (node.type === 'ArrayExpression' &&
         node.parentNode.type === 'CallExpression' &&
-        node.parentNode.callee.type === 'FunctionExpression') {
+        node.parentNode.callee.type === 'FunctionExpression' &&
+        getDepth(node) === 4) {
         modules = modules.concat(node.elements.map(function (el) {
           return el.value
         }))
+      } else if (node.type === 'ObjectExpression' &&
+        node.parentNode.type === 'ArrayExpression' &&
+        getDepth(node) === 6) {
+        node.properties.forEach(function (prop) {
+          modules.push(prop.value.value)
+        })
       }
     })
-    if (modules.length && typeof modules[0] === 'string') {
-      return cb(null, modules.sort())
+    modules = modules.filter(function (mod) {
+      return typeof mod === 'string' // excluded bundles-within-bundles and other extranea
+    })
+    if (modules.length) {
+      return cb(null, uniq(modules).sort())
     }
-    cb(new Error('Could not parse. ' +
+    cb(new Error("Couldn't parse this input. " +
       'Verbose mode requires browserify --full-paths. Is this a full-paths file?'))
   }
 
   function parseForCountOnly () {
+    // This seems to consistently match the Browserify modules definition and gives the uniq'd count.
+    // Exiting early ensures that we ignore Browserify bundles-within-bundles.
     walk(ast, function (node) {
       if (node.type === 'ObjectExpression' &&
         node.parentNode.type === 'CallExpression' &&
         node.parentNode.callee.type === 'FunctionExpression') {
-        if (opts.verbose) {
-          var mappings = new Map()
-          node.properties.forEach(function (prop) {
-            prop.value.elements[ 1 ].properties.forEach(function (prop) {
-              console.log('prop.value.raw', prop.value.raw, 'prop.key.raw', prop.key.raw)
-              mappings.set(prop.value.raw, prop.key.raw)
-            })
-          })
-          var values = []
-          mappings.forEach(function (value, key) {
-            values.push(value)
-          })
-          values = values.sort()
-          cb(null, values)
-        } else {
-          cb(null, node.properties.length)
-        }
+        cb(null, node.properties.length)
       }
     })
-    cb(new Error("Couldn't parse this file. Please pipe in a Browserify bundle."))
+    cb(new Error("Couldn't parse this input. Are you sure it's a Browserify bundle?"))
   }
 
   if (opts.verbose) {

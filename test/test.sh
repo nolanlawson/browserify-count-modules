@@ -19,6 +19,8 @@ function test_browserify {
   assert "browserify --full-paths $1 | node ./bin.js" $2
   # minified
   assert "browserify $1 | uglifyjs -mc | node ./bin.js" $2
+  # --full-paths with --verbose
+  assert "browserify $1 --full-paths | node ./bin.js --verbose | grep -o 'modules: .*' | sed 's/modules: //'" $2
 }
 
 test_browserify './test/cases/1' 3
@@ -27,6 +29,9 @@ test_browserify './test/cases/3/*' 2
 test_browserify './test/cases/4/*' 5
 test_browserify './test/cases/5' 2
 test_browserify './test/cases/6/*' 4
+test_browserify './test/cases/7/*' 5
+test_browserify './test/cases/8' 6
+test_browserify './test/cases/9' 3
 
 #
 # factor-bundle tests

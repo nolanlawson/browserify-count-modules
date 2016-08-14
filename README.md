@@ -15,28 +15,56 @@ CLI Usage
 
 This will output the total number of modules as an integer.
 
-This tool correctly handles `--standalone`, `factor-bundle`, and `bundle-collapser` as well. Just pass in any
-Browserify bundle and it'll work.
+#### Example:
+
+```js
+//a.js
+module.exports = 'a'
+```
+
+```js
+//b.js
+module.exports = 'b'
+```
+
+```js
+//index.js
+module.exports = require('./a') + require('./b')
+```
+
+Now count the modules:
+
+    $ browserify ./index.js | bcm
+    3
+
+In this example, there are three modules: `index.js`, `a.js`, `b.js`.
+
+Note that "modules" includes both first-party and third-party modules. So for instance, if you have one npm dependency,
+and that dependency has 5 modules, then its 5 modules will be added to your total module count. This also applies to 
+implicit Browserify dependencies, such as `Buffer` (which resolves to [feross/buffer](https://github.com/feross/buffer)).
+
+This tool correctly handles `--standalone`, `factor-bundle`, `bundle-collapser`, and minified bundles as well.
+Just pass in any Browserify bundle and it'll work.
 
 #### Verbose mode
 
-Using the `--verbose` flag, you can also get a full list of modules in the bundle:
+If you are able to `browserify --full-paths`, then you can use `--verbose` 
+to get a full list of modules in the bundle:
 
     browserify --full-paths path/to/module/root | bcm --verbose
 
 This prints out something like:
 
 ```
-Total number of modules: 4
+Total number of modules: 3
 
 Modules:
- - /Users/nolan/workspace/browserify-count-modules/test/cases/6/w.js
- - /Users/nolan/workspace/browserify-count-modules/test/cases/6/x.js
- - /Users/nolan/workspace/browserify-count-modules/test/cases/6/y.js
- - /Users/nolan/workspace/browserify-count-modules/test/cases/6/z.js
+ - /Users/me/project/a.js
+ - /Users/me/project/b.js
+ - /Users/me/project/index.js 
 ```
 
-Note that this only works if you use `--full-paths` with Browserify.
+Note that this only works with `--full-paths`.
 
 JavaScript API
 ----
@@ -54,5 +82,20 @@ browserifyCountModules(jsFile, function (err, count) {
     return 'oh no an error'
   }
   console.log('here is the count:', count)
+})
+```
+
+You can also get the list of dedup'ed and sorted modules by passing in `{verbose: true}`:
+
+```js
+var browserifyCountModules = require('browserify-count-modules')
+
+var jsFile = readFileSync('./my-bundle.js', 'utf8')
+
+browserifyCountModules(jsFile, {verbose: true}, function (err, modules) {
+  if (err) {
+    return 'oh no an error'
+  }
+  console.log('here are the modules', modules)
 })
 ```

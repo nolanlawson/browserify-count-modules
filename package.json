@@ -19,7 +19,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "acorn": "^3.3.0",
-    "es6-map": "^0.1.4",
+    "lodash.uniq": "^4.5.0",
     "walk-ast": "^0.0.2",
     "yargs": "^4.8.1"
   },
@@ -34,5 +34,10 @@
   "files": [
     "bin.js",
     "index.js"
-  ]
+  ],
+  "standard": {
+    "ignore": [
+      "test/cases/**"
+    ]
+  }
 }
