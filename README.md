@@ -3,10 +3,10 @@ browserify-count-modules [![Build Status](https://travis-ci.org/nolanlawson/brow
 
 Count the total number of modules in a Browserify bundle.
 
-    npm install -g browserify-count-modules
-
 CLI Usage
 ---
+
+    npm install -g browserify-count-modules
 
     browserify path/to/module/root | bcm
 
