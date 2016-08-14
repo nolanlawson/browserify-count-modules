@@ -3,9 +3,6 @@ browserify-count-modules [![Build Status](https://travis-ci.org/nolanlawson/brow
 
 Count the total number of modules in a Browserify bundle.
 
-Install
----
-
     npm install -g browserify-count-modules
 
 CLI Usage
@@ -17,7 +14,7 @@ This will output the total number of modules as an integer.
 
 ### Example
 
-Say you have three JavaScript files:
+Let's say you have three JavaScript files:
 
 ```js
 // a.js
