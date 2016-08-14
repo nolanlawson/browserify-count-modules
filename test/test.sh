@@ -10,13 +10,13 @@ PATH=$PATH:$(pwd)/node_modules/.bin
 
 function test_browserify {
   # regular
-  assert "browserify $1 | node ." $2
+  assert "browserify $1 | node ./bin.js" $2
   # standalone
-  assert "browserify -s ModuleName $1 | node ." $2
+  assert "browserify -s ModuleName $1 | node ./bin.js" $2
   # bundle-collapser
-  assert "browserify -p bundle-collapser/plugin $1 | node ." $2
+  assert "browserify -p bundle-collapser/plugin $1 | node ./bin.js" $2
   # minified
-  assert "browserify $1 | uglifyjs -mc | node ." $2
+  assert "browserify $1 | uglifyjs -mc | node ./bin.js" $2
 }
 
 test_browserify './test/cases/1' 3
@@ -33,9 +33,9 @@ test_browserify './test/cases/6/*' 4
 browserify ./test/cases/6/x.js ./test/cases/6/y.js -p [ factor-bundle -o bundle-x.js -o bundle-y.js ] \
   -o bundle-common.js
 
-assert "node . < bundle-x.js" 2
-assert "node . < bundle-y.js" 1
-assert "node . < bundle-common.js" 1
+assert "node ./bin.js < bundle-x.js" 2
+assert "node ./bin.js < bundle-y.js" 1
+assert "node ./bin.js < bundle-common.js" 1
 
 rimraf bundle-*.js
 
@@ -43,7 +43,7 @@ rimraf bundle-*.js
 # errors
 #
 
-assert_raises "echo console.log('yolo') | node ." 1
-assert_raises "echo yolo | node ." 1
+assert_raises "echo console.log('yolo') | node ./bin.js" 1
+assert_raises "echo yolo | node ./bin.js" 1
 
 assert_end suite

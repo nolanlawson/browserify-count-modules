@@ -1,17 +1,22 @@
 {
   "name": "browserify-count-modules",
   "version": "1.0.0",
-  "description": "",
+  "description": "Count the total number of modules in a Browserify bundle",
   "main": "index.js",
   "scripts": {
     "test": "standard && bash test/test.sh"
   },
-  "keywords": [],
+  "bin": {
+    "browserify-count-modules": "bin.js",
+    "bcm": "bin.js"
+  },
+  "keywords": ["browserify", "count", "modules"],
   "author": "Nolan Lawson <nolan@nolanlawson.com>",
   "license": "Apache-2.0",
   "dependencies": {
     "acorn": "^3.3.0",
-    "walk-ast": "^0.0.2"
+    "walk-ast": "^0.0.2",
+    "yargs": "^4.8.1"
   },
   "devDependencies": {
     "browserify": "13.1.0",
