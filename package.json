@@ -1,0 +1,24 @@
+{
+  "name": "browserify-count-modules",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "standard && bash test/test.sh"
+  },
+  "keywords": [],
+  "author": "Nolan Lawson <nolan@nolanlawson.com>",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "acorn": "^3.3.0",
+    "walk-ast": "^0.0.2"
+  },
+  "devDependencies": {
+    "browserify": "13.1.0",
+    "bundle-collapser": "1.2.1",
+    "factor-bundle": "2.5.0",
+    "rimraf": "2.5.4",
+    "standard": "^7.1.2",
+    "uglify-js": "2.7.0"
+  }
+}
