@@ -39,5 +39,13 @@
     "ignore": [
       "test/cases/**"
     ]
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nolanlawson/browserify-count-modules.git"
+  },
+  "bugs": {
+    "url": "https://github.com/nolanlawson/browserify-count-modules/issues"
+  },
+  "homepage": "https://github.com/nolanlawson/browserify-count-modules#readme"
 }
