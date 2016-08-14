@@ -15,7 +15,9 @@ CLI Usage
 
 This will output the total number of modules as an integer.
 
-#### Example:
+### Example
+
+Say you have three JavaScript files:
 
 ```js
 //a.js
@@ -46,7 +48,7 @@ implicit Browserify dependencies, such as `Buffer` (which resolves to [feross/bu
 This tool correctly handles `--standalone`, `factor-bundle`, `bundle-collapser`, and minified bundles as well.
 Just pass in any Browserify bundle and it'll work.
 
-#### Verbose mode
+### Verbose mode
 
 If you are able to `browserify --full-paths`, then you can use `--verbose` 
 to get a full list of modules in the bundle:
