@@ -80,7 +80,7 @@ browserifyCountModules(jsFile, function (err, count) {
   if (err) {
     return 'oh no an error'
   }
-  console.log('here is the count:', count)
+  console.log('here is the count', count)
 })
 ```
 
