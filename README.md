@@ -20,17 +20,17 @@ This will output the total number of modules as an integer.
 Say you have three JavaScript files:
 
 ```js
-//a.js
+// a.js
 module.exports = 'a'
 ```
 
 ```js
-//b.js
+// b.js
 module.exports = 'b'
 ```
 
 ```js
-//index.js
+// index.js
 module.exports = require('./a') + require('./b')
 ```
 
